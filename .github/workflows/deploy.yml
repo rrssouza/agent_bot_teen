@@ -1,0 +1,26 @@
+name: Deploy no PythonAnywhere
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Deploy via API do PythonAnywhere
+        run: |
+          # Faz upload do código para PythonAnywhere usando a API
+          curl -u ${{ 'rrssouza' }}:${{ '2008fb04894f7106c79ffff2edcc8269ee8086b4' }} \
+            -X POST \
+            -F "file=@./" \
+            https://www.pythonanywhere.com/api/v0/user/${{ 'rrssouza' }}/files/path/home/${{ 'rrssouza' }}/flaskapp/
+          
+          # Reinicia o WSGI para aplicar mudanças
+          curl -u ${{ 'rrssouza' }}:${{ '2008fb04894f7106c79ffff2edcc8269ee8086b4' }} \
+            -X POST \
+            https://www.pythonanywhere.com/api/v0/user/${{ 'rrssouza' }}/webapps/${{ 'rrssouza' }}.pythonanywhere.com/reload/
