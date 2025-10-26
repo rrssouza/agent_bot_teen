@@ -1,4 +1,5 @@
 import os
+
 class Config:
     # Outras configurações...
     MYSQL_HOST = os.environ.get('MYSQL_HOST', 'rrssouza.mysql.pythonanywhere-services.com')
